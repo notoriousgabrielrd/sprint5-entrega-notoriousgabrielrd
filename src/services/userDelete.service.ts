@@ -10,7 +10,7 @@ const userDeleteService = async (id: string) => {
 
   await userRepository.delete(account!.id);
 
-  return true;
+  return account;
 };
 
 export default userDeleteService;

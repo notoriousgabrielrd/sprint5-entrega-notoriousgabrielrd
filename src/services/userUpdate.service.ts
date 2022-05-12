@@ -14,24 +14,24 @@ const userUpdateService = async (
   const users = await userRepository.find();
 
   const accountToUpdate = users.find((users) => users.id === id);
+
   if (!accountToUpdate) {
     throw new Error("User not found.");
   }
 
-  const newPassword = bcrypt.hashSync(password, 10);
-
   const userUpdated = {
-    email,
-    name,
-    password: newPassword,
-    age,
-    updated_at: Date(),
+    email: email || accountToUpdate.email,
+    name: name || accountToUpdate.name,
+    password: password
+      ? bcrypt.hashSync(password, 10)
+      : accountToUpdate.password,
+    age: age || accountToUpdate.age,
+    updated_at: new Date(),
   };
-  console.log(accountToUpdate);
 
   await userRepository.update(accountToUpdate!.id, userUpdated);
 
-  return true;
+  return userUpdated;
 };
 
 export default userUpdateService;

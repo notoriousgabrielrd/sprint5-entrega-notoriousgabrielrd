@@ -12,7 +12,10 @@ export default class UserController {
 
       const newUser = await userCreateService({ name, email, password, age });
 
-      return res.status(201).json(newUser);
+      return res.status(201).json({
+        message: "created",
+        user: newUser,
+      });
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).send({
@@ -27,7 +30,10 @@ export default class UserController {
     try {
       const users = await userListService();
 
-      return res.json(users);
+      return res.json({
+        message: "listed",
+        users: users,
+      });
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).send({
@@ -44,7 +50,10 @@ export default class UserController {
 
       const user = await userListId(id);
 
-      return res.json(user);
+      return res.json({
+        message: "user found",
+        user,
+      });
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).send({
@@ -62,7 +71,10 @@ export default class UserController {
 
       const user = await userUpdateService(id, name, email, password, age);
 
-      return res.status(201).json(user);
+      return res.status(201).json({
+        message: "user updated",
+        user,
+      });
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).send({
@@ -79,7 +91,9 @@ export default class UserController {
 
       const user = await userDeleteService(id);
 
-      return res.status(200).json({ message: "User deleted with sucess!" });
+      return res.status(200).json({
+        message: `User ${user?.name} has been deleted!`,
+      });
     } catch (err) {
       if (err instanceof Error) {
         return res.status(401).send({
