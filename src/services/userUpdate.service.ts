@@ -20,18 +20,29 @@ const userUpdateService = async (
   }
 
   const userUpdated = {
+    id: accountToUpdate.id,
     email: email || accountToUpdate.email,
     name: name || accountToUpdate.name,
     password: password
       ? bcrypt.hashSync(password, 10)
       : accountToUpdate.password,
     age: age || accountToUpdate.age,
+    created_at: accountToUpdate.created_at,
     updated_at: new Date(),
   };
 
   await userRepository.update(accountToUpdate!.id, userUpdated);
 
-  return userUpdated;
+  const objectReady = {
+    id: userUpdated.id,
+    name: userUpdated.name,
+    email: userUpdated.email,
+    age: userUpdated.age,
+    created_at: userUpdated.created_at,
+    updated_at: userUpdated.updated_at,
+  };
+
+  return objectReady;
 };
 
 export default userUpdateService;

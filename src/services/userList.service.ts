@@ -5,6 +5,7 @@ const userListService = async () => {
   const userRepository = AppDataSource.getRepository(User);
 
   const users = userRepository.find();
+  console.log(users);
 
   return users;
 };
